@@ -152,14 +152,14 @@ threadpoolctl==3.5.0
 tokenizers==0.19.1
 tomli==2.2.1
 toolz==1.0.0
-torch==2.6.0
+torch
 torch-audiomentations==0.12.0
 torch_pitch_shift==1.2.5
-torchaudio==2.6.0
+torchaudio
 torchmetrics==1.6.1
 tqdm==4.66.5
 traitlets==5.14.3
-transformers==4.40.0
+transformers
 triton==3.2.0
 typer==0.15.1
 typing_extensions==4.12.2
