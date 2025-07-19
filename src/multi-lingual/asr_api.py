@@ -49,7 +49,7 @@ async def transcribe_audio(file: UploadFile = File(...), language: str = Query(.
     #transcription_ctc = model(wav, "kn", "ctc")
 
     # Perform ASR with RNNT decoding
-    transcription_rnnt = model(wav, "te", "rnnt")
+    transcription_rnnt = model(wav, "kn", "rnnt")
 
     return JSONResponse(content={"text": transcription_rnnt})
 '''
