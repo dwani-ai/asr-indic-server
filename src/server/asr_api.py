@@ -123,6 +123,8 @@ class ASRModelManager:
 app = FastAPI()
 asr_manager = ASRModelManager(languages_to_load=["kn", "hi", "ta", "te", "ml"])  # Load Kannada, Hindi, Tamil, Telugu, Malayalam
 
+asr_manager = ASRModelManager(languages_to_load=["kn","hi","te"])  # Load Kannada, Hindi, Tamil, Telugu, Malayalam
+
 class TranscriptionResponse(BaseModel):
     text: str
 
