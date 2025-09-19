@@ -1,5 +1,18 @@
 # ASR Indic Server
 
+python -m venv venv
+source venv/bin/activate
+
+ pip install fastapi torch torchaudio transformers uvicorn pydub
+
+pip install onnxruntime
+pip install python-multipart
+
+
+
+python src/multi-lingual/asr_api.py --port 7863  --host 0.0.0.0 --device gpu
+
+
 ## Overview
 Automatic Speech Recognition (ASR) for Indian languages using IndicConformer models. The default model is set to Kannada ASR.
 
