@@ -3,10 +3,7 @@
 python -m venv venv
 source venv/bin/activate
 
- pip install fastapi torch torchaudio transformers uvicorn pydub
-
-pip install onnxruntime
-pip install python-multipart
+ pip install fastapi torch torchaudio transformers uvicorn pydub onnxruntime python-multipart
 
 
 
