@@ -1,8 +1,13 @@
 # ASR Indic Server
 
+
 <!-- 
 docker build -t dwani/asr-indic-server:latest -f Dockerfile .
+
+
 -->
+
+nohup python src/server/asr_api.py --port 7863 --host 0.0.0.0 --device cuda > asr.log 2>&1 &
 
 ## Overview
 Automatic Speech Recognition (ASR) for Indian languages using IndicConformer models. The default model is set to Kannada ASR.
