@@ -76,6 +76,7 @@ __pypackages__
 
 
 !requirements.txt
+!docker-requirements.txt
 
 #!model_requirements.txt
 #!server_requirements.txt
