@@ -1,17 +1,35 @@
 # ASR Indic Server
 
+
 python -m venv venv
 source venv/bin/activate
 
- pip install fastapi torch torchaudio transformers uvicorn pydub onnxruntime python-multipart
+pip install fastapi torch torchaudio transformers uvicorn pydub onnxruntime python-multipart
 
 
 
 python src/multi-lingual/asr_api.py --port 7863  --host 0.0.0.0 --device gpu
 
 
+<!-- 
+docker build -t dwani/asr-indic-server:latest -f Dockerfile .
+
+Test for 
+malayalam
+odia
+gujurati
+
+-->
+
+nohup python src/server/asr_api.py --port 7863 --host 0.0.0.0 --device cuda > asr.log 2>&1 &
+
+
 ## Overview
-Automatic Speech Recognition (ASR) for Indian languages using IndicConformer models. The default model is set to Kannada ASR.
+Automatic Speech Recognition (ASR) for Indian languages using IndicConformer models. 
+
+Currently verified for kannada, hindi, tamil, telugu, marathi .
+
+Try the web demo at - [https://workshop.dwani.ai](https://workshop.dwani.ai) with Transcription page
 
 ## Demo Video
 

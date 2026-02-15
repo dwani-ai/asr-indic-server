@@ -15,26 +15,19 @@ app = FastAPI()
 class TranscriptionResponse(BaseModel):
     text: str
 
+# Load the model
+model = AutoModel.from_pretrained("ai4bharat/indic-conformer-600m-multilingual", trust_remote_code=True)
 
-class ASRModelManager:
-    def __init__(self, device_type="cuda"):
-        self.device_type = device_type
-        self.model_language = {
+
+model_language = {
             "kannada": "kn", "hindi": "hi", "malayalam": "ml", "assamese": "as", "bengali": "bn",
             "bodo": "brx", "dogri": "doi", "gujarati": "gu", "kashmiri": "ks", "konkani": "kok",
             "maithili": "mai", "manipuri": "mni", "marathi": "mr", "nepali": "ne", "odia": "or",
             "punjabi": "pa", "sanskrit": "sa", "santali": "sat", "sindhi": "sd", "tamil": "ta",
             "telugu": "te", "urdu": "ur"
         }
-
-
-# Load the model
-model = AutoModel.from_pretrained("ai4bharat/indic-conformer-600m-multilingual", trust_remote_code=True)
-
-asr_manager = ASRModelManager()  # Load Kannada, Hindi, Tamil, Telugu, Malayalam
-
 @app.post("/transcribe/", response_model=TranscriptionResponse)
-async def transcribe_audio(file: UploadFile = File(...), language: str = Query(..., enum=list(asr_manager.model_language.keys()))):
+async def transcribe_audio(file: UploadFile = File(...), language: str = Query(..., enum=list(model_language.keys()))):
     # Load the uploaded audio file
     wav, sr = torchaudio.load(file.file)
     wav = torch.mean(wav, dim=0, keepdim=True)
@@ -47,9 +40,9 @@ async def transcribe_audio(file: UploadFile = File(...), language: str = Query(.
 
     # Perform ASR with CTC decoding
     #transcription_ctc = model(wav, "kn", "ctc")
-
+    print(language)
     # Perform ASR with RNNT decoding
-    transcription_rnnt = model(wav, "kn", "rnnt")
+    transcription_rnnt = model(wav, language, "rnnt")
 
     return JSONResponse(content={"text": transcription_rnnt})
 '''
@@ -133,6 +126,6 @@ if __name__ == "__main__":
     parser.add_argument("--host", type=str, default="0.0.0.0", help="Host to run the server on.")
     parser.add_argument("--device", type=str, default="cuda", help="Device type to run the model on (cuda or cpu).")
     args = parser.parse_args()
-    asr_manager = ASRModelManager(device_type=args.device)
-
+    
+    
     uvicorn.run(app, host=args.host, port=args.port)

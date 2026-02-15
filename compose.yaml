@@ -1,0 +1,9 @@
+services:
+  asr-indic-server:
+    image: dwani/asr-indic-server:latest
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    ports:
+      - 8007:8007
+    environment:
+      - LANGUAGE=kn
