@@ -20,6 +20,16 @@ odia
 gujurati
 
 -->
+python -m pip install --upgrade pip setuptools wheel
+python -m pip install "nemo_toolkit[asr]"
+
+nohup python src/server/asr_api.py --port 7863 --host 0.0.0.0 --device cuda > asr.log 2>&1 &
+
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 7863
+
+
+sudo iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDIRECT --to-port 7863
+
 
 nohup python src/server/asr_api.py --port 7863 --host 0.0.0.0 --device cuda > asr.log 2>&1 &
 
