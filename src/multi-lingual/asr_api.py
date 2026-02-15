@@ -40,7 +40,7 @@ async def transcribe_audio(file: UploadFile = File(...), language: str = Query(.
 
     # Perform ASR with CTC decoding
     #transcription_ctc = model(wav, "kn", "ctc")
-
+    print(language)
     # Perform ASR with RNNT decoding
     transcription_rnnt = model(wav, language, "rnnt")
 
