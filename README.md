@@ -1,6 +1,16 @@
 # ASR Indic Server
 
 
+python -m venv venv
+source venv/bin/activate
+
+pip install fastapi torch torchaudio transformers uvicorn pydub onnxruntime python-multipart
+
+
+
+python src/multi-lingual/asr_api.py --port 7863  --host 0.0.0.0 --device gpu
+
+
 <!-- 
 docker build -t dwani/asr-indic-server:latest -f Dockerfile .
 
@@ -12,6 +22,7 @@ gujurati
 -->
 
 nohup python src/server/asr_api.py --port 7863 --host 0.0.0.0 --device cuda > asr.log 2>&1 &
+
 
 ## Overview
 Automatic Speech Recognition (ASR) for Indian languages using IndicConformer models. 
