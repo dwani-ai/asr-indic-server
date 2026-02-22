@@ -9,14 +9,29 @@ model = AutoModel.from_pretrained(
     trust_remote_code=True
 )
 
-# Load & preprocess audio (unchanged)
-wav, sr = torchaudio.load("samples/kannada_sample_1.wav")
-wav = torch.mean(wav, dim=0, keepdim=True)
+# Languages and audio file mapping
+languages = {
+    "kn": "samples/kannada_sample_1.wav",
+    "hi": "samples/hindi_sample.wav",
+    "mr": "samples/marathi_sample.wav",
+    "ta": "samples/tamil_sample.wav",
+    "te": "samples/telugu_sample.wav"
+}
 
-if sr != 16000:
-    resampler = torchaudio.transforms.Resample(sr, 16000)
-    wav = resampler(wav)
+# Common audio preprocessing function
+def load_and_preprocess(path):
+    wav, sr = torchaudio.load(path)
+    wav = torch.mean(wav, dim=0, keepdim=True)
+    if sr != 16000:
+        wav = torchaudio.transforms.Resample(sr, 16000)(wav)
+    return wav
 
-# ASR with both decoders
-print("CTC:", model(wav, "kn", "ctc"))
-print("RNNT:", model(wav, "kn", "rnnt"))
+# Process each language with both decoders
+for lang_code, audio_path in languages.items():
+    print(f"Process Language - {lang_code.upper()} ---------")
+
+    wav = load_and_preprocess(audio_path)
+
+    print("CTC:", model(wav, lang_code, "ctc"))
+    print("RNNT:", model(wav, lang_code, "rnnt"))
+    print("-----")
