@@ -65,9 +65,9 @@ async def transcribe_audio(
         lang_code = model_language[language]
         
         # Perform ASR with CTC decoding
-        transcription_rnnt = model(wav, lang_code, "rnnt")
+        transcription_ctc = model(wav, lang_code, "ctc")
         
-        return JSONResponse(content={"text": transcription_rnnt})        
+        return JSONResponse(content={"text": transcription_ctc})        
     except KeyError:
         raise HTTPException(status_code=400, detail=f"Unsupported language: {language}")
     except Exception as e:
