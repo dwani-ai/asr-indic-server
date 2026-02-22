@@ -4,6 +4,6 @@ services:
     volumes:
       - ~/.cache/huggingface:/root/.cache/huggingface
     ports:
-      - 8007:8007
+      - 10803:10803
     environment:
-      - LANGUAGE=kn
+      - HF_TOKEN
