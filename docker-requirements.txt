@@ -1,5 +1,0 @@
-torch==2.7.1
-torchvision
-torchaudio
-transformers==4.49.0
-accelerate
