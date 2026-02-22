@@ -21,3 +21,6 @@ print("CTC Transcription:", transcription_ctc)
 # Perform ASR with RNNT decoding
 transcription_rnnt = model(wav, "kn", "rnnt")
 print("RNNT Transcription:", transcription_rnnt)
+
+
+#e9b71b369c048e2c6b634d4c131061c34e441179

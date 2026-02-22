@@ -1,5 +1,5 @@
 # ASR Indic Server
-
+<!--
 
 python -m venv venv
 source venv/bin/activate
@@ -10,7 +10,7 @@ pip install fastapi torch torchaudio transformers uvicorn pydub onnxruntime pyth
 
 python src/multi-lingual/asr_api.py --port 7863  --host 0.0.0.0 --device gpu
 
-
+>
 <!-- 
 docker build -t dwani/asr-indic-server:latest -f Dockerfile .
 
@@ -20,6 +20,7 @@ odia
 gujurati
 
 -->
+<!-- 
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install "nemo_toolkit[asr]"
 
@@ -32,7 +33,7 @@ sudo iptables -t nat -A OUTPUT -p tcp --dport 80 -j REDIRECT --to-port 7863
 
 
 nohup python src/server/asr_api.py --port 7863 --host 0.0.0.0 --device cuda > asr.log 2>&1 &
-
+-->
 
 ## Overview
 Automatic Speech Recognition (ASR) for Indian languages using IndicConformer models. 
@@ -89,7 +90,7 @@ Watch a quick demo of our project in action! Click the image below to view the v
   - [Running Nemo Model](#running-nemo-model)
   - [Running with Transformers](#running-with-transformers)
 
-## Supported Languages
+<!-- ## Supported Languages
 
 22 Indian languages are supported, thanks to AIBharat organisation
 
@@ -133,6 +134,8 @@ We have hosted an Automatic Speech Recognition (ASR) service that can be used to
 - The `language` parameter in the URL specifies the language of the audio file. In the examples above, it is set to `kannada`.
 - The service expects the audio file to be in WAV format.
 
+-->
+
 ## Getting Started - Development
 
 ### For Development (Local)
@@ -158,7 +161,9 @@ We have hosted an Automatic Speech Recognition (ASR) service that can be used to
         ```bash
         pip install -r nemo-requirements.txt
         ``` 
-
+      ```bash
+      sudo apt install ffmpeg
+      ```
 ## Downloading Translation Models
 Models can be downloaded from AI4Bharat's HuggingFace repository:
 
@@ -167,6 +172,7 @@ Models can be downloaded from AI4Bharat's HuggingFace repository:
 huggingface-cli download ai4bharat/indic-conformer-600m-multilingual
 ```
 
+<!-- 
 ### For Individual langauge models 
 -  Kannada
   ```bash
@@ -186,7 +192,7 @@ huggingface-cli download ai4bharat/indic-conformer-600m-multilingual
   huggingface-cli download ai4bharat/indicconformer_stt_hi_hybrid_rnnt_large
   ```
 
-
+-->
 ### Sample Code
 ### For all languages
 ```python
@@ -221,6 +227,7 @@ print("RNNT Transcription:", transcription_rnnt)
   python asr-multi-lingual.py
   ```
 
+<!-- 
 ### Individual Languages
 ```python
 import torch
@@ -244,7 +251,7 @@ print(rnnt_text)
   ```bash
   python asr_code.py
   ```
-
+-->
 
 ### Alternative examples for Development
 
