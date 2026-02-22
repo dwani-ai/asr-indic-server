@@ -106,7 +106,7 @@ print("RNNT Transcription:", transcription_rnnt)
 Run the server using FastAPI with the multilingual model
 - for GPU
   ```bash
-  python src/server/asr_api.py --port 10803 --host 0.0.0.0 --device gpu
+  python src/server/asr_api.py --port 10803 --host 0.0.0.0
   ```
 
 #### Evaluating Results for FastApi Server

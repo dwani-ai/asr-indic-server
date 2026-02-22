@@ -28,4 +28,4 @@ USER appuser
 
 EXPOSE 10803
 
-CMD ["python", "/app/src/server/asr_api.py", "--host", "0.0.0.0", "--port", "10803", "--device", "cuda"]
+CMD ["python", "/app/src/server/asr_api.py", "--host", "0.0.0.0", "--port", "10803"]

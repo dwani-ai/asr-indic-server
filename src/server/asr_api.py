@@ -29,6 +29,14 @@ model_language = {
             "punjabi": "pa", "sanskrit": "sa", "santali": "sat", "sindhi": "sd", "tamil": "ta",
             "telugu": "te", "urdu": "ur"
         }
+
+
+model_language = {
+            "kannada": "kn", "hindi": "hi", "marathi": "mr",
+            "tamil": "ta",
+            "telugu": "te"
+        }
+
 @app.post("/transcribe/", response_model=TranscriptionResponse)
 async def transcribe_audio(file: UploadFile = File(...), language: str = Query(..., enum=list(model_language.keys()))):
     # Load the uploaded audio file
@@ -42,12 +50,12 @@ async def transcribe_audio(file: UploadFile = File(...), language: str = Query(.
         wav = resampler(wav)
 
     # Perform ASR with CTC decoding
-    #transcription_ctc = model(wav, "kn", "ctc")
+    transcription_ctc = model(wav, language, "ctc")
     print(language)
     # Perform ASR with RNNT decoding
-    transcription_rnnt = model(wav, language, "rnnt")
+    #transcription_rnnt = model(wav, language, "rnnt")
 
-    return JSONResponse(content={"text": transcription_rnnt})
+    return JSONResponse(content={"text": transcription_ctc})
 
 
 @app.get("/")
@@ -60,7 +68,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the FastAPI server for ASR.")
     parser.add_argument("--port", type=int, default=10803, help="Port to run the server on.")
     parser.add_argument("--host", type=str, default="0.0.0.0", help="Host to run the server on.")
-    parser.add_argument("--device", type=str, default="cuda", help="Device type to run the model on (cuda or cpu).")
     args = parser.parse_args()
     
     
