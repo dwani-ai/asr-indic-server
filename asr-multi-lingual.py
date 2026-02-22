@@ -6,7 +6,7 @@ import torch
 model = AutoModel.from_pretrained("ai4bharat/indic-conformer-600m-multilingual", trust_remote_code=True)
 
 # Load an audio file
-wav, sr = torchaudio.load("kannada_sample_1.wav")
+wav, sr = torchaudio.load("samples/kannada_sample_1.wav")
 wav = torch.mean(wav, dim=0, keepdim=True)
 
 target_sample_rate = 16000  # Expected sample rate
