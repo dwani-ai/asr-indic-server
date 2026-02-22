@@ -3,6 +3,10 @@
 <!-- 
 docker build -t dwani/asr-indic-server:latest -f Dockerfile .
 
+export HF_TOKEN="HF_TKEN"
+
+docker compose -f compose.yml up -d
+
 Test for 
 malayalam
 odia
