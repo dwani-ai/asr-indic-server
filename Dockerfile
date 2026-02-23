@@ -1,5 +1,4 @@
-FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu22.04
-
+FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu22.04
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
@@ -14,9 +13,14 @@ RUN apt-get update && apt-get install -y \
 
 RUN pip install --upgrade pip
 
-COPY requirements.txt .
+COPY docker-requirements.txt .
 
-RUN pip install --no-cache-dir --no-deps -r requirements.txt
+RUN pip install --no-cache-dir --no-deps -r docker-requirements.txt
+RUN pip install typing_extensions typing_inspection annotated_types
+RUN pip install anyio torch==2.7.1 torchaudio torchcodec
+RUN pip install packaging regex numpy
+RUN pip install huggingface_hub safetensors transformers
+RUN pip install python-multipart
 WORKDIR /app
 
 
