@@ -11,17 +11,3 @@ starlette
 annotated_doc 
 pydantic==2.12.5
 pydantic_core==2.41.5
-typing_extensions
-typing_inspection
-annotated_types
-anyio 
-torch==2.7.1 
-torchaudio 
-torchcodec
-packaging 
-regex 
-numpy
-huggingface_hub 
-safetensors 
-transformers
-python-multipart
