@@ -15,14 +15,11 @@ app = FastAPI(title="Indic ASR API", version="1.0.0")
 class TranscriptionResponse(BaseModel):
     text: str
 
-# Load from local path in Docker (/app/hf_models) to avoid HF token and download on first start
+# Load from local path in Docker (/app/hf_models) to avoid HF token; fall back to HF for local runs
 MODEL_PATH = os.environ.get("ASR_MODEL_PATH", "/app/hf_models")
 _use_local = os.path.isdir(MODEL_PATH)
-if not _use_local and MODEL_PATH == "/app/hf_models":
-    raise RuntimeError(
-        "Local model dir /app/hf_models not found. Build the image with: "
-        "huggingface-cli download ai4bharat/indic-conformer-600m-multilingual --local-dir ./hf_models && docker build ..."
-    )
+if not _use_local and "ASR_MODEL_PATH" in os.environ:
+    raise RuntimeError(f"ASR_MODEL_PATH={MODEL_PATH} is not an existing directory")
 _model_path = MODEL_PATH if _use_local else "ai4bharat/indic-conformer-600m-multilingual"
 _load_kwargs = {"trust_remote_code": True}
 if _use_local:
