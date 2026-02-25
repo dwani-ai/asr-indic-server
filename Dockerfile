@@ -23,10 +23,6 @@ RUN pip install huggingface_hub safetensors transformers
 RUN pip install python-multipart
 WORKDIR /app
 
-# Copy pre-downloaded HuggingFace model (run: huggingface-cli download ai4bharat/indic-conformer-600m-multilingual --local-dir ./hf_models)
-COPY hf_models /app/hf_models
-RUN test -f /app/hf_models/config.json || (echo "Build context must include hf_models. Run: huggingface-cli download ai4bharat/indic-conformer-600m-multilingual --local-dir ./hf_models" && exit 1)
-
 COPY . .
 RUN useradd -ms /bin/bash appuser \
     && chown -R appuser:appuser /app
