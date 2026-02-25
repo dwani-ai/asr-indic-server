@@ -8,7 +8,7 @@ asr_venv
 *.nemo
 # C extensions
 *.so
-
+hf_models/
 # Distribution / packaging
 .Python
 build/
