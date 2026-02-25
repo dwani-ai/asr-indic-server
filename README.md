@@ -59,8 +59,7 @@ Models can be downloaded from AI4Bharat's HuggingFace repository:
 
 ### For Multi-lingual language supported model
 ```bash
-hf download ai4bharat/indic-conformer-600m-multilingual
---local-dir ./hf_models
+hf download ai4bharat/indic-conformer-600m-multilingual --local-dir ./hf_models
 ```
 
 ### Sample Code

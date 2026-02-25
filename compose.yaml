@@ -3,3 +3,5 @@ services:
     image: dwani/asr-indic-server:latest
     ports:
       - 10803:10803
+    environment:
+      - HF_HUB_OFFLINE=1

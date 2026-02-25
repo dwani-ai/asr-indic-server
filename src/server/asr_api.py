@@ -17,12 +17,19 @@ class TranscriptionResponse(BaseModel):
 
 # Load from local path in Docker (/app/hf_models) to avoid HF token and download on first start
 MODEL_PATH = os.environ.get("ASR_MODEL_PATH", "/app/hf_models")
-_model_path = MODEL_PATH if os.path.isdir(MODEL_PATH) else "ai4bharat/indic-conformer-600m-multilingual"
+_use_local = os.path.isdir(MODEL_PATH)
+if not _use_local and MODEL_PATH == "/app/hf_models":
+    raise RuntimeError(
+        "Local model dir /app/hf_models not found. Build the image with: "
+        "huggingface-cli download ai4bharat/indic-conformer-600m-multilingual --local-dir ./hf_models && docker build ..."
+    )
+_model_path = MODEL_PATH if _use_local else "ai4bharat/indic-conformer-600m-multilingual"
 _load_kwargs = {"trust_remote_code": True}
-if _model_path.startswith("ai4bharat/"):
-    _load_kwargs["revision"] = "e9b71b369c048e2c6b634d4c131061c34e441179"
-else:
+if _use_local:
     _load_kwargs["local_files_only"] = True
+    os.environ["HF_HUB_OFFLINE"] = "1"  # prevent any hub access when using baked-in model
+else:
+    _load_kwargs["revision"] = "e9b71b369c048e2c6b634d4c131061c34e441179"
 
 model = AutoModel.from_pretrained(_model_path, **_load_kwargs)
 
