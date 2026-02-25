@@ -15,16 +15,23 @@ app = FastAPI(title="Indic ASR API", version="1.0.0")
 class TranscriptionResponse(BaseModel):
     text: str
 
-# Load from local path in Docker (/app/hf_models) to avoid HF token; fall back to HF for local runs
+# Docker: model is always baked in at /app/hf_models, no network. Local: use ASR_MODEL_PATH or HF.
 MODEL_PATH = os.environ.get("ASR_MODEL_PATH", "/app/hf_models")
-_use_local = os.path.isdir(MODEL_PATH)
-if not _use_local and "ASR_MODEL_PATH" in os.environ:
-    raise RuntimeError(f"ASR_MODEL_PATH={MODEL_PATH} is not an existing directory")
+_in_docker = os.path.exists("/.dockerenv")
+_is_docker_default = _in_docker and MODEL_PATH == "/app/hf_models"
+if _is_docker_default:
+    os.environ["HF_HUB_OFFLINE"] = "1"  # Docker never uses network for models
+_config = os.path.join(MODEL_PATH, "config.json")
+_use_local = os.path.isdir(MODEL_PATH) and os.path.isfile(_config)
+if not _use_local and ("ASR_MODEL_PATH" in os.environ or _is_docker_default):
+    raise RuntimeError(
+        f"Model dir not found at {MODEL_PATH}. "
+        + ("Build image with: huggingface-cli download ai4bharat/indic-conformer-600m-multilingual --local-dir ./hf_models && docker build ..." if _is_docker_default else "")
+    )
 _model_path = MODEL_PATH if _use_local else "ai4bharat/indic-conformer-600m-multilingual"
 _load_kwargs = {"trust_remote_code": True}
 if _use_local:
     _load_kwargs["local_files_only"] = True
-    os.environ["HF_HUB_OFFLINE"] = "1"  # prevent any hub access when using baked-in model
 else:
     _load_kwargs["revision"] = "e9b71b369c048e2c6b634d4c131061c34e441179"
 
