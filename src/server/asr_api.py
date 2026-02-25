@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Query
 from fastapi.responses import RedirectResponse, JSONResponse
+import os
 import torch
 import torchaudio
 from transformers import AutoModel
@@ -14,12 +15,16 @@ app = FastAPI(title="Indic ASR API", version="1.0.0")
 class TranscriptionResponse(BaseModel):
     text: str
 
-# Load the model (consider loading lazily in production)
-model = AutoModel.from_pretrained(
-    "ai4bharat/indic-conformer-600m-multilingual",
-    revision="e9b71b369c048e2c6b634d4c131061c34e441179",
-    trust_remote_code=True
-)
+# Load from local path in Docker (/app/hf_models) to avoid HF token and download on first start
+MODEL_PATH = os.environ.get("ASR_MODEL_PATH", "/app/hf_models")
+_model_path = MODEL_PATH if os.path.isdir(MODEL_PATH) else "ai4bharat/indic-conformer-600m-multilingual"
+_load_kwargs = {"trust_remote_code": True}
+if _model_path.startswith("ai4bharat/"):
+    _load_kwargs["revision"] = "e9b71b369c048e2c6b634d4c131061c34e441179"
+else:
+    _load_kwargs["local_files_only"] = True
+
+model = AutoModel.from_pretrained(_model_path, **_load_kwargs)
 
 # Language mapping (removed duplicate)
 model_language = {
