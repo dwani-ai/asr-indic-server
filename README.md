@@ -54,7 +54,7 @@ Try the web demo at - [https://workshop.dwani.ai](https://workshop.dwani.ai) wit
       ```bash
       sudo apt install ffmpeg
       ```
-## Downloading Translation Models
+## Downloading ASR Models
 Models can be downloaded from AI4Bharat's HuggingFace repository:
 
 - [https://huggingface.co/ai4bharat/indic-conformer-600m-multilingual](https://huggingface.co/ai4bharat/indic-conformer-600m-multilingual)
@@ -114,7 +114,7 @@ print("RNNT Transcription:", transcription_rnnt)
 
 #### Running with FastAPI Server
 Run the server using FastAPI with the multilingual model
-- for GPU
+- 
   ```bash
   python src/server/asr_api.py --port 10803 --host 0.0.0.0
   ```
