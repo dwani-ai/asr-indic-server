@@ -57,6 +57,16 @@ Try the web demo at - [https://workshop.dwani.ai](https://workshop.dwani.ai) wit
 ## Downloading Translation Models
 Models can be downloaded from AI4Bharat's HuggingFace repository:
 
+- [https://huggingface.co/ai4bharat/indic-conformer-600m-multilingual](https://huggingface.co/ai4bharat/indic-conformer-600m-multilingual)
+  - Log in HuggingFace Account
+  - Request Access to the model
+  - https://huggingface.co/docs/hub/security-tokens 
+    - Get a Read token for your account
+
+    ```bash
+    export HF_TOKEN=<YOUR-READ-TOKEN-HERE>
+    ```
+
 ### For Multi-lingual language supported model
 ```bash
 hf download ai4bharat/indic-conformer-600m-multilingual 
@@ -146,7 +156,7 @@ curl -X 'POST' \
 ```bash
 ffmpeg -i sample_audio.wav -ac 1 -ar 16000 sample_audio_infer_ready.wav -y
 ```
-- **Model not found**: Download the required models using the `huggingface-cli download` commands above.
+- **Model not found**: Download the required models using the `hf download` commands above.
 - **Port conflicts**: Ensure port 10803 is free when running the FastAPI server.
 
 
@@ -172,34 +182,25 @@ Also you can join the [discord group](https://discord.gg/WZMCerEZ2P) to collabor
 - [IndicConformer Collection on HuggingFace](https://huggingface.co/collections/ai4bharat/indicconformer-66d9e933a243cba4b679cb7f)
 
 
-<!-- 
+
+ 
 ### For Production (Docker)
 - **Prerequisites**: Docker and Docker Compose
 - **Steps**:
-  1. **Start the server**:
-  For GPU
+  1. **Start the server**: 
   ```bash
+  export HF_TOKEN="YOUR-HF_TOKEN"
   docker compose -f compose.yaml up -d
   ```
 
--->
 
-<!-- 
-docker build -t dwani/asr-indic-server:latest -f Dockerfile .
-
-export HF_TOKEN="HF_TKEN"
-
-docker compose -f compose.yml up -d
-
-Test for 
-malayalam
-odia
-gujurati
+- Steps to build the Docker Image
+    ```bash
+    docker build -t dwani/asr-indic-server:latest -f Dockerfile .
+    ```
 
 -->
 <!-- 
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install "nemo_toolkit[asr]"
 
 nohup python src/server/asr_api.py --port 7863 --host 0.0.0.0 --device cuda > asr.log 2>&1 &
 
